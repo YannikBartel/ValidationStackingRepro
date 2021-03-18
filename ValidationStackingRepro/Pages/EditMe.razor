@@ -1,0 +1,35 @@
+﻿@page "/"
+@using Data;
+
+
+<button @onclick="(() => _visible = !_visible)">toggle visibility</button>
+
+@if (_visible)
+{
+    <EditForm @ref="_editForm" EditContext="_currentEditContext">
+        <DataAnnotationsValidator />
+
+        <InputText @bind-Value="_currentData.Summary"></InputText>
+        <ValidationMessage For="() => _currentData.Summary"></ValidationMessage>
+
+        <button type="submit">submit</button>
+        @*<button @onclick="SubmitClick">submit</button>*@
+    </EditForm>
+}
+
+@code {
+    private WeatherForecast _currentData = new WeatherForecast();
+    private EditContext _currentEditContext;
+    private bool _visible = true;
+    private EditForm _editForm = new EditForm();
+
+    protected override void OnInitialized()
+    {
+        _currentEditContext = new EditContext(_currentData);
+    }
+
+    //private void SubmitClick()
+    //{
+    //    _currentEditContext.Validate();
+    //}
+}
